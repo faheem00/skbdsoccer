@@ -1,0 +1,48 @@
+extends layout
+
+block title
+	| Player List
+
+block content
+	div(class='container')
+		if query.type == 'goalkeepers'
+			h1(class='display-3')= "Goalkeepers (Base Price $5)"
+			div(class='row')
+				each player in goalkeepers
+					include ./players/card.pug
+		
+		if query.type == 'defenders_5'
+			h1(class='display-3')= "Defenders (Base Price $5)"
+			div(class='row')
+				each player in defenders_5
+					include ./players/card.pug
+		
+		if query.type == 'defenders_10'
+			h1(class='display-3')= "Defenders (Base Price $10)"
+			div(class='row')
+				each player in defenders_10
+					include ./players/card.pug
+		
+		if query.type == 'midfielders_5'
+			h1(class='display-3')= "Midfielders (Base Price $5)"
+			div(class='row')
+				each player in midfielders_5
+					include ./players/card.pug
+		
+		if query.type == 'midfielders_10'
+			h1(class='display-3')= "Midfielders (Base Price $10)"
+			div(class='row')
+				each player in midfielders_10
+					include ./players/card.pug
+
+		if query.type == 'strikers_5'
+			h1(class='display-3')= "Strikers (Base Price $5)"
+			div(class='row')
+				each player in strikers_5
+					include ./players/card.pug
+		
+		if query.type == 'strikers_10'
+			h1(class='display-3')= "Strikers (Base Price $10)"
+			div(class='row')
+				each player in strikers_10
+					include ./players/card.pug

@@ -1,0 +1,8 @@
+div(class='col-sm-3')
+	div(class='card border-secondary text-white bg-primary mb-3')
+		img(class='card-img-top img-fluid' style={height:'17rem'} src='data:image/png;base64,' + player.photo alt=player.name)
+		div(class='card-body')
+			h5(class='card-title')= player.name			
+		ul(class='list-group list-group-flush')
+			li(class='list-group-item bg-success')= '$' + player.base_price
+			li(class='list-group-item bg-info')= player.position

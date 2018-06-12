@@ -1,0 +1,11 @@
+extends layout
+
+block title
+	| Hello, World!
+
+block content
+	div(class='container')
+		ul
+			each answer in answers
+				li.
+					#{answer.hash_id} #{answer.question}
