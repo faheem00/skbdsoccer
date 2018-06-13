@@ -8,10 +8,13 @@ users[process.env.AUCTION_USERNAME] = process.env.AUCTION_PASSWORD;
 router.use('/', basicAuth({
     users: users,
     challenge: true,    
-}))
+}));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {	
+	if(!req.session.authenticated){
+		req.session.authenticated = true;
+	}
   	res.render('auction/index');
 });
 

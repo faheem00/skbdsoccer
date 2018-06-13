@@ -2,6 +2,7 @@ extends ../layout
 
 block append head
 	link(rel='stylesheet', href='/auction_main.css')
+	link(rel='stylesheet', href='https://unpkg.com/sweetalert2/dist/sweetalert2.min.css')
 
 block title
 	| Auction Page
@@ -11,4 +12,5 @@ block content
 		div#app
 
 block append scripts
+	script(src='https://unpkg.com/sweetalert2/dist/sweetalert2.min.js')
 	script(src='/auction_main.js')

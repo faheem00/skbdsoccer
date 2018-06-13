@@ -12,7 +12,8 @@ exports.get_api = (req, res, next) => {
 exports.get_players = (req,res,next) => {
 	let Players = require('../models/players');
 	return Players.findAll({
-		attributes: { exclude: ['photo'] }
+		attributes: { exclude: ['photo'] },
+		where: {is_captain:false}
 	}).then(players => {
 		return res.json(players);
 	});
@@ -61,20 +62,23 @@ exports.post_auction_events = (req,res,next) => {
 			let bought_players = auction_event.player_sum;
 			let remaining_budget = 200 - auction_event.price_sum - req.body.price;
 			console.log('remaining budget is ' + remaining_budget);		
-			console.log('bought player is ' + bought_players);
-			if(bought_players >= 12)
-				throw new Error('Player exceeded for the team');
-			else if(remaining_budget <= 0)
+			console.log('bought player is ' + bought_players);			
+			if(remaining_budget < 0)
 				throw new Error('No more budget left for the team');
-			
-			let minimum_amount_needed = (12 - (bought_players+ 1)) * 5;
+			let minimum_amount_needed = null;
+			if((bought_players+ 1) > 12){
+				//captain is trying to buy more than minimum required players
+				minimum_amount_needed = 0;
+			} else{
+				minimum_amount_needed = (12 - (bought_players+ 1)) * 5;				
+			}
 			if (remaining_budget < minimum_amount_needed)
 				throw new Error('The team cannot afford the player');
 			else return AuctionEvent.create({
 				price: req.body.price,
 				player_id: req.body.player_id,
 				team_id: req.body.team_id
-			}).then(player=>player);
+			}).then(player=>res.json(player));
 		}).catch(function(e) {
 			return res.status(422).json({errors:[e.message]});
 		});		
@@ -130,7 +134,7 @@ exports.put_auction_events = (req,res,next) => {
 				let remaining_budget = 200 - auction_event.price_sum - (req.body.price - nested_auction_event.price);					
 				console.log('remaining budget is ' + remaining_budget);		
 				console.log('bought player is ' + bought_players);
-				if(remaining_budget <= 0)
+				if(remaining_budget < 0)
 					throw new Error('No more budget left for the team');
 				
 				let minimum_amount_needed = (12 - bought_players) * 5;

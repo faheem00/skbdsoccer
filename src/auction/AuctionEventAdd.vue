@@ -1,14 +1,34 @@
 <template>
-	
+	<form class="form-inline">
+		<label>Player</label>
+		<select class="form-control" v-model="player_id">
+			<option v-for="player in unsold_players_options" :value="player.value">{{player.text}}</option>
+		</select>
+		<label>Purchase Price</label>
+		<priceInputComponent v-model="price" @on_bid="onBid"></priceInputComponent>
+		<!-- <input type="number" v-model.number="price" class="form-control" min="5" max="145" :step="step" ref="auction_price"> -->
+		<label>Captain</label>
+		<select class="form-control" v-model="team_id">
+			<option v-for="option in captain_options" :value="option.value">{{option.text}}</option>
+		</select>
+		<button type="button" class="btn btn-outline-primary" @click="createAuctionEvent">Save</button>
+		<button type="button" class="btn btn-outline-danger" @click="cancelEvent">Cancel</button>
+	</form>
 </template>
 
 <script>
+import priceInputComponent from './priceInputComponent.vue';
 export default {
+	components: {
+		priceInputComponent
+	},
+	props: ['unsold_players','captains'],
 	data() {
 		return {			
-			price: null,
+			price: 5,
 			player_id: null,
-			team_id: null
+			team_id: null,
+			step: 5
 		}
 	},
 	methods: {
@@ -16,21 +36,80 @@ export default {
 			if(this.price != null && this.player_id != null && this.team_id != null){
 				let url = '/api/auction_events';
 				let self = this;
-				fetch(url,{method:'POST',body:JSON.stringify({
-					price: self.price,
-					player_id: self.player_id,
-					team_id: self.team_id
-				}),headers:{
-				    'Content-Type': 'application/json'
-				}}).then(res=>res.json()).then(data=>{
-					if(data.errors){
-						console.log(data.errors);
+				swal({
+					title:'You are creating an auction player',
+					text: "Are you sure you want to confirm this bid?",
+					showCancelButton: true,
+					showLoaderOnConfirm: true,
+					confirmButtonText: 'Yes',
+					cancelButtonText: 'No',
+					preConfirm(){
+						return fetch(url,{credentials: 'same-origin',method:'POST',body:JSON.stringify({
+							price: self.price,
+							player_id: self.player_id,
+							team_id: self.team_id
+						}),headers:{
+						    'Content-Type': 'application/json'
+						}}).then(res=>res.json());
+					},
+					allowOutsideClick: () => !swal.isLoading()
+				}).then(data=>{
+					if(data.dismiss)
+						return;
+					if(data.value.errors){
+						swal({
+			  			  type: 'error',
+			  			  title: 'Error',
+			  			  html: '<ul>' + data.value.errors.map(v=>`<li>${v}</li>`).join('') +'</ul>'				  			  
+			  			});
 					}
 					else{
-						console.log(data);
+						self.$emit('auction_event_added');
+				  		Swal('Success!','Player auction successfully created!','success');
 					}
-				});
+				}).finally(()=>{self.player_id = null;self.$emit('auction_bidding',null);});
 			}
+		},
+		cancelEvent() {
+			this.price = null;
+			this.player_id = null;
+			this.team_id = null;
+			this.$emit('cancel_event');
+			this.$emit('auction_bidding',null);
+		},
+		onBid() {
+			this.$emit('auction_bidding',this.price);
+		}
+	},
+	watch: {
+		// price(newval,oldval){			
+		// 	if(this.$refs.auction_price){				
+		// 		if(newval > 30){					
+		// 			if(this.step == 5){						
+		// 				this.step = 10;
+		// 				if(newval > oldval)
+		// 					this.price += 5;
+		// 				else this.price -= 5;
+		// 			}					
+		// 		}
+		// 		else if(newval < 30){					
+		// 			if(this.step == 10){						
+		// 				this.step = 5;	
+		// 				if(newval > oldval)
+		// 					this.price -= 5;
+		// 				else this.price += 5;
+		// 			}			
+		// 		}
+		// 	}
+		// 	this.$emit('auction_bidding',this.price);				
+		// }
+	},
+	computed: {
+		unsold_players_options() {
+			return this.unsold_players.map(player=>{return {text: player.name,value:player.id}});
+		},
+		captain_options() {
+			return this.captains.map(captain => {return {text:captain.name,value:captain.team_id}});
 		}
 	}
 }

@@ -4,6 +4,8 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var logger = require('morgan');
 var helmet = require('helmet');
 var compression = require('compression');
@@ -25,6 +27,16 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//session setup
+app.use(session({
+    store: new RedisStore({
+    	host: process.env.REDIS_HOST,
+    	port: process.env.REDIS_PORT,
+    	pass: process.env.REDIS_PASSWORD
+    }),
+    secret: process.env.SESSION_SECRET || '123456',
+    resave: false
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 

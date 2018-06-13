@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var apicontroller = require('../controllers/apicontroller');
+const createError = require('http-errors');
+
+router.use((req,res,next)=>{	
+	if(req.session.authenticated)
+		next();
+	else next(createError(401));
+});
 
 /* GET home page. */
 router.get('/',apicontroller.get_api);
