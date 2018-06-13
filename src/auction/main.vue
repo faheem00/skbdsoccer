@@ -1,9 +1,9 @@
 <template>  
   <div class="row">    
-    <div class="col">
+    <div class="col-7">
       <AuctionModifyComponent :auction_list="auction_list" :unsold_players="unsold_player_list" :captains="captains_list" @danger_list_update="calculateDangerList" @update_auction_list="getAuctionEvents" @auction_bidding="calculateDangerList"/>
     </div>
-    <div class="col">
+    <div class="col-5">
       <AuctionDisplayComponent :captains="captains_list" :danger_list="danger_list"/>
     </div>
   </div>

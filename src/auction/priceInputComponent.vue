@@ -1,5 +1,13 @@
 <template>
-	<input type="text" :value="value" class="form-control" @keyup.up="onUp" @keyup.down="onDown" :disabled="disabled">
+	<div class="input-group">
+		<div class="input-group-prepend">
+			<button class="btn btn-info" type="button" @click="onDown" :disabled="disabled">-</button>
+		</div>
+		<input type="text" readonly :value="value" class="form-control">
+		<div class="input-group-append">
+			<button class="btn btn-info" type="button" @click="onUp" :disabled="disabled">+</button>
+		</div>
+	</div>	
 </template>
 
 <script>

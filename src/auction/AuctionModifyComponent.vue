@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div class="row mb-5">
 		<div class="col-12">
 			<table class="table" v-if="auction_list.length > 0">
 				<thead>

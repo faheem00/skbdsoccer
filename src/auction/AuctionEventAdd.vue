@@ -1,18 +1,27 @@
 <template>
-	<form class="form-inline">
-		<label>Player</label>
-		<select class="form-control" v-model="player_id">
-			<option v-for="player in unsold_players_options" :value="player.value">{{player.text}}</option>
-		</select>
-		<label>Purchase Price</label>
-		<priceInputComponent v-model="price" @on_bid="onBid"></priceInputComponent>
-		<!-- <input type="number" v-model.number="price" class="form-control" min="5" max="145" :step="step" ref="auction_price"> -->
-		<label>Captain</label>
-		<select class="form-control" v-model="team_id">
-			<option v-for="option in captain_options" :value="option.value">{{option.text}}</option>
-		</select>
-		<button type="button" class="btn btn-outline-primary" @click="createAuctionEvent">Save</button>
-		<button type="button" class="btn btn-outline-danger" @click="cancelEvent">Cancel</button>
+	<form class="row">
+		<div class="col-3">
+			<label>Player</label>
+			<select class="form-control" v-model="player_id">
+				<option v-for="player in unsold_players_options" :value="player.value">{{player.text}}</option>
+			</select>
+		</div>
+		<div class="col-3">
+			<label>Purchase Price</label>
+			<priceInputComponent v-model="price" @on_bid="onBid"></priceInputComponent>
+		</div>
+		<div class="col-3">
+			<label>Captain</label>
+			<select class="form-control" v-model="team_id">
+				<option v-for="option in captain_options" :value="option.value">{{option.text}}</option>
+			</select>
+		</div>
+		<div class="col-3">
+			<div class="btn-group" role="group" aria-label="Actions">
+				<button type="button" class="btn btn-outline-primary" @click="createAuctionEvent">Save</button>
+				<button type="button" class="btn btn-outline-danger" @click="cancelEvent">Cancel</button>
+			</div>
+		</div>						
 	</form>
 </template>
 
