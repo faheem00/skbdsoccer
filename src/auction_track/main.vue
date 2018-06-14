@@ -25,7 +25,10 @@
 		created () {
     		let self = this;
     		this.loadData();
-    		let hostname = "ws://socket.";
+    		let hostname = '';
+    		if(window.location.protocol == 'https:')
+    			hostname = "wss://socket.";
+    		else hostname = "ws://socket.";
     		if(window.location.hostname.includes('www.')){
     			hostname += window.location.hostname.replace('www.','');
     		} else hostname += window.location.hostname;
