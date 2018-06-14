@@ -4,7 +4,7 @@
 			<table class="table" v-if="auction_list.length > 0">
 				<thead>
 					<tr>
-						<th scope="col">Name</th>
+						<th scope="col">Name and Position</th>
 						<th scope="col">Purchase Price</th>
 						<th scope="col">Bought by</th>
 						<th scope="col">Actions</th>

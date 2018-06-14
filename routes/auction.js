@@ -4,18 +4,20 @@ const basicAuth = require('express-basic-auth');
 let users = {};
 users[process.env.AUCTION_USERNAME] = process.env.AUCTION_PASSWORD;
 
-/* AUTH for route */
-router.use('/', basicAuth({
+/* GET home page with authentication. */
+router.get('/', basicAuth({
     users: users,
     challenge: true,    
-}));
-
-/* GET home page. */
-router.get('/', function(req, res, next) {	
+}),function(req, res, next) {	
 	if(!req.session.authenticated){
 		req.session.authenticated = true;
 	}
   	res.render('auction/index');
+});
+
+/* GET auction track */
+router.get('/track',(req, res, next)=>{
+	res.render('auction/track');
 });
 
 module.exports = router;

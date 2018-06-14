@@ -1,7 +1,7 @@
 <template>
 	<tr>
 		<td>
-			<span>{{item.player.name}}</span>			
+			<span>{{item.player.name}} - {{item.player.position | player_position}}</span>			
 		</td>
 		<td>
 			<span v-if="!modifyState">{{item.price}}</span>
@@ -133,6 +133,20 @@ export default {
 	computed: {
 		captain_options() {
 			return this.captains.map(captain => {return {text:captain.name,value:captain.team_id}});
+		}
+	},
+	filters: {
+		player_position (value){
+			switch(value){
+				case 'gk':
+					return 'Goalkeeper';
+				case 'def':
+					return 'Defender';
+				case 'mid':
+					return 'Midfielder';
+				case 'str':
+					return 'Striker';
+			}
 		}
 	}
 }

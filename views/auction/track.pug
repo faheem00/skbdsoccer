@@ -1,0 +1,16 @@
+extends ../layout
+
+block append head
+	//- link(rel='stylesheet', href='/auction_track.css')
+	link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/css/iziToast.min.css')
+
+block title
+	| Auction Tracking Page
+
+block content
+	div.container-fluid.bg-light
+		div#app
+
+block append scripts
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js')
+	script(src='/auction_track.js')

@@ -74,7 +74,8 @@ export default {
 					}
 					else{
 						self.$emit('auction_event_added');
-				  		Swal('Success!','Player auction successfully created!','success');
+						let message = data.value;
+				  		Swal('Success!',`${message.player.name} has been purchased for $${message.price} by ${message.team.player.name}`,'success');
 					}
 				}).finally(()=>{self.player_id = null;self.$emit('auction_bidding',null);});
 			}

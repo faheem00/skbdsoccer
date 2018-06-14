@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const redis_publisher = require('../config/redis');
 
 exports.get_api = (req, res, next) => {
 	let QuestionAnswer = require('../models/question_answers');
@@ -14,7 +15,7 @@ exports.get_players = (req,res,next) => {
 	return Players.findAll({
 		attributes: { exclude: ['photo'] },
 		where: {is_captain:false}
-	}).then(players => {
+	}).then(players => {		
 		return res.json(players);
 	});
 };
@@ -78,7 +79,22 @@ exports.post_auction_events = (req,res,next) => {
 				price: req.body.price,
 				player_id: req.body.player_id,
 				team_id: req.body.team_id
-			}).then(player=>res.json(player));
+			}).then(player=>{
+				//publish player name, player bid price, captain
+				return AuctionEvent.findOne({
+					where: {id: player.id},
+					attributes: ['id','price'],
+					include: [
+						{model:require('./../models/players'),attributes:['name']},
+						{model:require('./../models/teams'),attributes:['team_name'],include:[
+							{model:require('./../models/players'),where:{is_captain:true},attributes:['name']}
+						]}
+					]
+				}).then(a=>a.get({ plain: true })).then(event => {
+					redis_publisher.publish('event:create',JSON.stringify(event));
+					return res.json(event);
+				});				
+			});
 		}).catch(function(e) {
 			return res.status(422).json({errors:[e.message]});
 		});		
@@ -141,7 +157,10 @@ exports.put_auction_events = (req,res,next) => {
 				if (remaining_budget < minimum_amount_needed)
 					throw new Error('The team cannot afford the player');
 				else return AuctionEvent.update(update_fields,{where:{'id':req.body.id}})
-				.spread((ac,ar)=>res.send(ac.toString()));
+				.spread((ac,ar)=>{
+					redis_publisher.publish('event:general',1);
+					res.send(ac.toString());
+				});
 			}).catch(function(e) {
 				return res.status(422).json({errors:[e.message]});
 			});			
@@ -152,7 +171,10 @@ exports.put_auction_events = (req,res,next) => {
 exports.delete_auction_events = (req,res,next) => {
 	let AuctionEvent = require('../models/auction_event');
 	console.log(req.body);
-	return AuctionEvent.destroy({where:{'id':req.body.id}}).then(ac=>ac > 0 ? res.status(200).end() : res.status(422).end());
+	return AuctionEvent.destroy({where:{'id':req.body.id}}).then(ac=>{
+		redis_publisher.publish('event:general',1);
+		return ac > 0 ? res.status(200).end() : res.status(422).end();
+	});
 }
 
 exports.get_teams = (req,res,next) => {
