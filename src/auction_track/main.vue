@@ -2,7 +2,7 @@
 	<section>
 		<h1 class="text-center">Welcome to Auction Central!</h1>
 		<div class="row mb-5">
-			<AuctionDisplayComponent :items="auction_list"></AuctionDisplayComponent>
+			<AuctionDisplayComponent :items="auction_list" :captains="captains_select"></AuctionDisplayComponent>
 			<CaptainDisplayComponent :items="captains_list"></CaptainDisplayComponent>
 		</div>		
 	</section>
@@ -119,6 +119,11 @@
     	      }        
     	    });
     	  },
+          captains_select() {
+            return this.teams.map((team) => {
+                return {text: team.player.name, value: team.id};
+            });
+          }
     	}
 	}
 </script>
