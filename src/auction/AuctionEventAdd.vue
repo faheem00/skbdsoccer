@@ -116,7 +116,11 @@ export default {
 	},
 	computed: {
 		unsold_players_options() {
-			return this.unsold_players.map(player=>{return {text: player.name,value:player.id}});
+			return this.unsold_players.sort((a,b)=>{
+				if(a.name < b.name) return -1;
+			    if(a.name > b.name) return 1;
+			    return 0;
+			}).map(player=>{return {text: player.name,value:player.id}});
 		},
 		captain_options() {
 			return this.captains.map(captain => {return {text:captain.name,value:captain.team_id}});
