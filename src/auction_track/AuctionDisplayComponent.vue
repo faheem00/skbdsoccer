@@ -31,7 +31,8 @@
 				team_id: null,
 				search: null,
 				columns: [
-					{label: 'Name and Position',field:'name_position'},
+					{label: 'Name',field:'name'},
+					{label: 'Position',field:'position'},
 					{label: 'Purchase Price',field:'price',type:'number'},
 					{label: 'Bought by',field:'captain_name',filterOptions: {enabled: true}},
 				]
@@ -62,7 +63,8 @@
 				if(this.search != null && this.search != '') items = items.filter(search_method);
 				return items.map(item => {
 					return {
-						name_position: `${item.player.name} - ${self.player_position(item.player.position)}`,
+						name: item.player.name,
+						position: self.player_position(item.player.position),
 						price: item.price,
 						captain_name: item.team.player.name
 					};
