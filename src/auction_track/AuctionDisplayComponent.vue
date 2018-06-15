@@ -1,36 +1,23 @@
 <template>
-	<div class="col-12 col-md-6">
+	<div class="col-12">
 		<h2 class="text-center">Auctioned Players</h2>
-		<div class="form-group">
-			<label>Filter auctioned players by captain</label>
-			<select class="form-control" v-model="team_id">
-				<option :value="null">All Players</option>
-				<option v-for="captain in captains" :value="captain.value">{{captain.text}}</option>
-			</select>
+		<div class="row">
+			<div class="form-group col-12">
+				<label>Filter auctioned players by captain</label>
+				<select class="form-control" v-model="team_id">
+					<option :value="null">All Players</option>
+					<option v-for="captain in captains" :value="captain.value">{{captain.text}}</option>
+				</select>
+			</div>
 		</div>
 		<div class="table-responsive" v-if="auctioned_players.length > 0">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Name and Position</th>
-						<th scope="col">Purchase Price</th>
-						<th scope="col">Bought by</th>						
-					</tr>
-				</thead>
-				<tbody>
-					<tr scope="row" v-for="item in auctioned_players">
-						<td>
-							<span>{{item.player.name}} - {{item.player.position | player_position}}</span>			
-						</td>
-						<td>
-							<span>{{item.price}}</span>
-						</td>
-						<td>
-							<span>{{item.team.player.name}}</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<vue-good-table
+			:columns="columns"
+			:rows="auctioned_players"
+			:search-options="{enabled: true,}"
+			:sort-options="{enabled: true,initialSortBy: {field: 'price', type: 'desc'}}"
+			:pagination-options="{enabled: true,perPage: 20}"
+			styleClass="vgt-table striped bordered"/>
 		</div>			
 		<h1 class="text-center" v-else>No players auctioned yet</h1>
 	</div>
@@ -41,10 +28,16 @@
 		props: ['items','captains'],
 		data(){
 			return {
-				team_id: null
+				team_id: null,
+				search: null,
+				columns: [
+					{label: 'Name and Position',field:'name_position'},
+					{label: 'Purchase Price',field:'price',type:'number'},
+					{label: 'Bought by',field:'captain_name',filterOptions: {enabled: true}},
+				]
 			}
 		},
-		filters: {
+		methods: {
 			player_position (value){
 				switch(value){
 					case 'gk':
@@ -61,9 +54,19 @@
 		computed: {
 			auctioned_players(){
 				let self = this;
+				let search_method = (value => value.player.name.toLowerCase().includes(self.search.toLowerCase()));
+				let items;
 				if(this.team_id == null)
-					return this.items;
-				else return this.items.filter(item => item.team_id == self.team_id);
+					items = this.items;
+				else items = this.items.filter(item => item.team_id == self.team_id);
+				if(this.search != null && this.search != '') items = items.filter(search_method);
+				return items.map(item => {
+					return {
+						name_position: `${item.player.name} - ${self.player_position(item.player.position)}`,
+						price: item.price,
+						captain_name: item.team.player.name
+					};
+				});
 			}
 		}
 	}

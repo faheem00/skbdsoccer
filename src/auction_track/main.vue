@@ -2,8 +2,7 @@
 	<section>
 		<h1 class="text-center">Welcome to Auction Central!</h1>
 		<div class="row mb-5">
-			<AuctionDisplayComponent :items="auction_list" :captains="captains_select"></AuctionDisplayComponent>
-			<CaptainDisplayComponent :items="captains_list"></CaptainDisplayComponent>
+			<AuctionDisplayComponent :items="auction_list" :captains="captains_select"></AuctionDisplayComponent>			
 		</div>		
 	</section>
 </template>

@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import App from './main.vue';
+import VueGoodTable from 'vue-good-table';
+import 'vue-good-table/dist/vue-good-table.css';
+Vue.use(VueGoodTable);
 
 Vue.config.devtools = process.env.APP_MODE == 'development';
 

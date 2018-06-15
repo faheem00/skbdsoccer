@@ -26,6 +26,7 @@
     "pug": "2.0.0-beta11",
     "redis": "^2.8.0",
     "sequelize": "^4.37.10",
+    "vue-good-table": "^2.7.1",
     "ws": "^5.2.0"
   },
   "devDependencies": {
