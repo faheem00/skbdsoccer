@@ -187,3 +187,8 @@ exports.get_teams = (req,res,next) => {
 		return res.json(teams);
 	});
 };
+
+exports.get_points_table = (req, res, next) => {
+	let PointsTable = require('../models/points_table');
+	return PointsTable.findAll().then(points_table => res.json(points_table));
+}

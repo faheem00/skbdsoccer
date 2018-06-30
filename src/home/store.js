@@ -3,6 +3,28 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const home = {
+    state() {
+        return {
+            points_table : []
+        }
+    },
+    mutations: {
+        load_points_table(state,payload) {
+            state.points_table = payload.points_table;
+        }
+    },
+    actions: {
+        points_table_load_action({commit}) {
+            fetch('/api/points_table', {
+                credentials: 'same-origin'
+            }).then(response => response.json()).then(data => {
+                commit('load_points_table',{points_table:data});
+            });
+        }
+    }
+}
+
 const player_list = {
     state () {
         return {
@@ -109,6 +131,7 @@ const result = {
 
 export default new Vuex.Store({
     modules: {
+        home,
         player_list,
         fixture,
         result

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var apicontroller = require('../controllers/apicontroller');
+const apicontroller = require('../controllers/apicontroller');
 const createError = require('http-errors');
 
 const authenticate = (req,res,next)=>{	
@@ -29,5 +29,8 @@ router.delete('/auction_events',authenticate,express.json(),apicontroller.delete
 
 /** GET All teams */
 router.get('/teams',apicontroller.get_teams);
+
+/** GET points table */
+router.get('/points_table',apicontroller.get_points_table);
 
 module.exports = router;
