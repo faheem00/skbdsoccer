@@ -52,10 +52,7 @@
         mapState
     } from 'vuex';
     Vue.use(VueGoodTable);
-    export default {
-        created(){
-            this.$store.dispatch('points_table_load_action');
-        },
+    export default {        
         computed: {
             ...mapState({
                 points_table: state => state.home.points_table

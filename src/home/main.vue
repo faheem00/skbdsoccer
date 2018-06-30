@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav class="navbar fixed-top navbar-dark bg-primary d-block d-sm-block d-md-none">
+    <nav class="navbar sticky-top navbar-dark bg-primary d-block d-sm-block d-md-none">
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -53,6 +53,7 @@
     created() {
       this.$store.dispatch('websocket_load_action');
       this.$store.dispatch('data_load_action');
+      this.$store.dispatch('points_table_load_action');
     }
   };
 </script>
