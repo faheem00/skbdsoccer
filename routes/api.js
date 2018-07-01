@@ -33,4 +33,11 @@ router.get('/teams',apicontroller.get_teams);
 /** GET points table */
 router.get('/points_table',apicontroller.get_points_table);
 
+/** GET matches */
+router.get('/matches', apicontroller.get_matches);
+
+/** GET match results */
+
+router.get('/results',apicontroller.get_match_results);
+
 module.exports = router;

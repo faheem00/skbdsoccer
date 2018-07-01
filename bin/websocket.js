@@ -40,8 +40,7 @@ var WebSocketServer = WebSocket.Server
     	});
         //ping-pong
         setInterval(function() {
-            if(ws.readyState === WebSocket.OPEN){
-                console.log('sending ping!');
+            if(ws.readyState === WebSocket.OPEN){                
                 ws.ping();
             }
         },20000);

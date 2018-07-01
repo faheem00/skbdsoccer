@@ -99,8 +99,7 @@ const player_list = {
             }
             commit('load_websocket',{websocket: init_websocket()});
         },
-        data_load_action({commit}) {
-            let self = this;
+        data_load_action({commit}) {            
             //auction events
             fetch('/api/auction_events', {
                 credentials: 'same-origin'
@@ -122,11 +121,51 @@ const player_list = {
 };
 
 const fixture = {
-    state: {}
+    state() {
+        return {
+            matches: []
+        }
+    },
+    mutations: {
+        load_matches (state, payload){
+            state.matches = payload.matches;
+        }
+    },
+    actions: {
+        matches_load_action({commit}){
+            fetch('/api/matches', {
+                credentials: 'same-origin'
+            }).then(response => response.json()).then(data => {
+                commit('load_matches', {
+                    matches: data
+                });
+            });
+        }
+    }
 };
 
 const result = {
-    state: {}
+    state() {
+        return {
+            results: []
+        }
+    },
+    mutations: {
+        load_results (state,payload) {
+            state.results = payload.results;
+        }
+    },
+    actions: {
+        results_load_action({commit}){
+            fetch('/api/results', {
+                credentials: 'same-origin'
+            }).then(response => response.json()).then(data => {
+                commit('load_results', {
+                    results: data
+                });
+            });
+        }
+    }
 }
 
 export default new Vuex.Store({

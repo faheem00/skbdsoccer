@@ -7,7 +7,6 @@ const Goals = database.define('goals',{
     scorer_id: {type: Sequelize.INTEGER},
 },{tableName: 'goals',timestamps:false});
 
-Goals.belongsTo(require("./matches"),{foreignKey: 'match_id'});
 Goals.belongsTo(require("./players"),{foreignKey: 'scorer_id'});
 
 module.exports = Goals;

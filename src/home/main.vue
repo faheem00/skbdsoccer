@@ -14,7 +14,7 @@
             <a class="nav-link">Player List</a>
           </router-link>
           <router-link class="nav-item" tag="li" to="/fixtures">
-            <a class="nav-link">Match Fixtures</a>
+            <a class="nav-link">Match Fixture</a>
           </router-link>
           <router-link class="nav-item" tag="li" to="/results">
             <a class="nav-link">Results</a>
@@ -54,6 +54,8 @@
       this.$store.dispatch('websocket_load_action');
       this.$store.dispatch('data_load_action');
       this.$store.dispatch('points_table_load_action');
+      this.$store.dispatch('matches_load_action');
+      this.$store.dispatch('results_load_action');
     }
   };
 </script>

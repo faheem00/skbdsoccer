@@ -13,7 +13,8 @@ const Matches = database.define('matches',{
     winner: {type: Sequelize.TINYINT}
 },{tableName: 'matches',timestamps:false});
 
-Matches.belongsTo(require("./teams"),{foreignKey: 'home_team_id'});
-Matches.belongsTo(require("./teams"),{foreignKey: 'away_team_id'});
+Matches.belongsTo(require("./teams"),{as:'home_team',foreignKey: 'home_team_id'});
+Matches.belongsTo(require("./teams"),{as:'away_team',foreignKey: 'away_team_id'});
+Matches.hasMany(require('./goals'),{as:'goals',foreignKey: 'match_id'});
 
 module.exports = Matches;
