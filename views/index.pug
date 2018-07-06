@@ -14,3 +14,10 @@ block content
 block append scripts
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.3.0/js/iziToast.min.js')
 	script(src='/home.js')
+	script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-77488704-2")
+	script.
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'UA-77488704-2');
+

@@ -28,6 +28,10 @@
                             <div class="col-md-4 col-12">
                                 <p class="font-weight-bold">Match Result</p>
                                 <p>{{showResult(r)}}</p>
+                                <aside v-if="r.man_of_match">
+                                    <p class="font-weight-bold">Man of the Match</p>
+                                    <p>&#128081 {{r.man_of_match.name}}</p>
+                                </aside>
                             </div>
                             <div class="col-md-4 col-12">
                                 <p class="font-weight-bold">Scorers</p>

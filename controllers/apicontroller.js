@@ -351,8 +351,13 @@ exports.get_match_results = (req, res, next) => {
 				as: 'goals',
 				include: [{
 					model: require('./../models/players'),
-					attributes: ['name'],					
+					attributes: ['name']
 				}]
+			},
+			{
+				model: require('./../models/players'),
+				as: 'man_of_match',
+				attributes: ['name'],				
 			}
 		]
 	}).then(matches => res.json(matches));
