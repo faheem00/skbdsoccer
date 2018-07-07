@@ -36,7 +36,7 @@
                             <div class="col-md-4 col-12">
                                 <p class="font-weight-bold">Scorers</p>
                                 <ul>
-                                    <li v-for="g in r.goals" :key="g.id">{{g.player.name}}</li>
+                                    <li v-for="g in r.goals" :key="g.id">{{g.player ? g.player.name : 'Own Goal'}}</li>
                                 </ul>
                             </div>
                         </div>
