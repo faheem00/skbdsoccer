@@ -16,9 +16,11 @@ exports.get_players = (req, res, next) => {
 		attributes: {
 			exclude: ['photo']
 		},
-		where: {
-			is_captain: false
-		}
+		include: [{
+			model: require('./../models/auction_event'),
+			as: 'auction_event',
+			attributes: ['price']
+		}]
 	}).then(players => {
 		return res.json(players);
 	});

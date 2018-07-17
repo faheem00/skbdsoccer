@@ -34,33 +34,7 @@
 				}, {});
 			},
 		},
-		computed: {
-			captains_list() {
-				//Name, total budget, remaining budget, bought players, remaining players, 
-				let total_budget = 200;
-				let total_players = 12;
-				let grouped_auctioned_players = this.groupBy(this.auction_list, 'team_id');
-				return this.teams.map(function (team) {
-					let bought_players = 0;
-					let remaining_players = 12;
-					let remaining_budget = 200;
-					if (grouped_auctioned_players.hasOwnProperty(team.id)) {
-						let auctioned_player_group = grouped_auctioned_players[team.id];
-						bought_players = auctioned_player_group.length;
-						if (bought_players > 12) remaining_players = 0;
-						else remaining_players = remaining_players - bought_players;
-						remaining_budget = remaining_budget - auctioned_player_group.reduce((acc, val) => acc + val.price, 0);
-					}
-					return {
-						team_id: team.id,
-						name: team.player.name,
-						total_budget: total_budget,
-						remaining_budget: remaining_budget,
-						bought_players: bought_players,
-						remaining_players: remaining_players
-					}
-				});
-			},
+		computed: {			
 			captains_select() {
 				return this.teams.map((team) => {
 					return {

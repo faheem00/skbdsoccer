@@ -32,8 +32,7 @@
 				columns: [
 					{label: 'Name',field:'name'},
 					{label: 'Position',field:'position'},
-					{label: 'Purchase Price',field:'price',type:'number'},
-					{label: 'Bought by',field:'captain_name',filterOptions: {enabled: true}},
+					{label: 'Purchase Price',field:'price',type:'number'},					
 				]
 			}
 		},
@@ -54,7 +53,7 @@
 		computed: {
 			auctioned_players(){
 				let self = this;
-				let search_method = (value => value.player.name.toLowerCase().includes(self.search.toLowerCase()));
+				let search_method = (value => value.name.toLowerCase().includes(self.search.toLowerCase()));
 				let items;
 				if(this.team_id == null)
 					items = this.items;
@@ -62,10 +61,9 @@
 				if(this.search != null && this.search != '') items = items.filter(search_method);
 				return items.map(item => {
 					return {
-						name: item.player.name,
-						position: self.player_position(item.player.position),
-						price: item.price,
-						captain_name: item.team.team_name
+						name: item.name,
+						position: self.player_position(item.position),
+						price: item.auction_event ? item.auction_event.price : 0
 					};
 				});
 			}

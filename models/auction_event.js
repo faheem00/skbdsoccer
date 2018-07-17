@@ -8,7 +8,7 @@ var AuctionEvent = database.define('auction_event',{
 	team_id: {type: Sequelize.INTEGER},	
 },{tableName: 'auction_event',createdAt : 'created_at',updatedAt : 'updated_at',});
 
-AuctionEvent.belongsTo(require('./players'),{foreignKey: 'player_id'});
-AuctionEvent.belongsTo(require('./teams'),{foreignKey: 'team_id'});
+// AuctionEvent.belongsTo(require('./players'),{foreignKey: 'player_id'});
+// AuctionEvent.belongsTo(require('./teams'),{foreignKey: 'team_id'});
 
 module.exports = AuctionEvent;

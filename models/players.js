@@ -7,7 +7,10 @@ const Players = database.define('players',{
 	base_price: Sequelize.INTEGER ,
 	position: Sequelize.ENUM('gk', 'def', 'mid', 'str'),
 	is_captain: Sequelize.BOOLEAN,
-	photo: Sequelize.BLOB('medium')
+	photo: Sequelize.BLOB('medium'),
+	team_id: Sequelize.INTEGER
 },{timestamps: false});
+
+Players.hasOne(require('./auction_event'),{as:'auction_event',foreignKey:'player_id'});
 
 module.exports = Players;

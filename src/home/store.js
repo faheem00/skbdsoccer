@@ -101,7 +101,7 @@ const player_list = {
         },
         data_load_action({commit}) {            
             //auction events
-            fetch('/api/auction_events', {
+            fetch('/api/players', {
                 credentials: 'same-origin'
             }).then(response => response.json()).then(data => {
                 commit('load_auction_list', {
