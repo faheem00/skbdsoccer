@@ -16,7 +16,7 @@
                     </button>
                 </div>
 
-                <div :id="'collapse-'+index" class="collapse show" :aria-labelledby="'heading-'+index" data-parent="#accordion">
+                <div :id="'collapse-'+index" class="collapse" :aria-labelledby="'heading-'+index" data-parent="#accordion">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4 col-12">
