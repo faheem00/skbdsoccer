@@ -12,9 +12,15 @@ exports.get_api = (req, res, next) => {
 
 exports.get_players = (req, res, next) => {
 	let Players = require('../models/players');
+	const Sequelize = require('sequelize');
 	return Players.findAll({
 		attributes: {
 			exclude: ['photo']
+		},
+		where: {
+			team_id: {
+				[Sequelize.Op.ne]: null
+			}
 		},
 		include: [{
 			model: require('./../models/auction_event'),
