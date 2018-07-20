@@ -37,7 +37,9 @@ router.get('/points_table',apicontroller.get_points_table);
 router.get('/matches', apicontroller.get_matches);
 
 /** GET match results */
-
 router.get('/results',apicontroller.get_match_results);
+
+/** GET goal scorers */
+router.get('/goal_scorers', apicontroller.get_goal_scorers);
 
 module.exports = router;

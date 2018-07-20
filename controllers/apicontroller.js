@@ -370,3 +370,28 @@ exports.get_match_results = (req, res, next) => {
 		]
 	}).then(matches => res.json(matches));
 }
+
+exports.get_goal_scorers = (req, res, next) => {
+	let Goals = require('./../models/goals');
+	let Sequelize = require('sequelize');
+	return Goals.findAll({
+		order: [
+			Sequelize.literal('goals DESC')
+		],
+		attributes: [
+			[Sequelize.fn('COUNT', Sequelize.col('scorer_id')), 'goals'],
+			'scorer_id',			
+		],
+		include: [{
+			model: require('./../models/players'),
+			as: 'player',
+			attributes: ['name']
+		}],
+		group: 'scorer_id',		
+		where: {
+			scorer_id: {
+				[Sequelize.Op.ne]: null
+			}
+		},
+	}).then(goals => res.json(goals));
+};

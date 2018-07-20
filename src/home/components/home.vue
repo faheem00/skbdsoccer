@@ -11,8 +11,9 @@
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="text-center">Position</th>
+                            <th class="text-center">Position</th>                            
                             <th class="text-center">Team Name</th>
+                            <th class="text-center">Matches Played</th>
                             <th class="text-center">Matches Won</th>
                             <th class="text-center">Matches Lost</th>
                             <th class="text-center">Matches Drawn</th>
@@ -24,8 +25,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="(team, index) in points_table" :key="team.team_name">
-                            <td>{{index + 1}}</td>
+                            <td>{{index + 1}}</td>                            
                             <td>{{team.team_name}}</td>
+                            <td>{{Number(team.win_count) + Number(team.lose_count) + Number(team.draw_count)}}</td>
                             <td>{{team.win_count}}</td>
                             <td>{{team.lose_count}}</td>
                             <td>{{team.draw_count}}</td>
@@ -33,6 +35,23 @@
                             <td>{{team.goals_against}}</td>
                             <td>{{team.goal_difference}}</td>
                             <td>{{team.points}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h1>Top Goal Scorers</h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center">Goal Count</th>                            
+                            <th class="text-center">Player Name</th>
+                        <tr/>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(goal, index) in goal_scorers" :key="index">
+                            <td class="text-center">{{goal.goals}}</td>
+                            <td class="text-center">{{goal.player.name}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,7 +72,8 @@
     export default {        
         computed: {
             ...mapState({
-                points_table: state => state.home.points_table
+                points_table: state => state.home.points_table,
+                goal_scorers: state => state.home.goal_scorers
             })
         }
     }

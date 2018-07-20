@@ -56,6 +56,7 @@
       this.$store.dispatch('points_table_load_action');
       this.$store.dispatch('matches_load_action');
       this.$store.dispatch('results_load_action');
+      this.$store.dispatch('goal_scorers_load_action');
     }
   };
 </script>

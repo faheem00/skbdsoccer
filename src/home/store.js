@@ -6,12 +6,16 @@ Vue.use(Vuex);
 const home = {
     state() {
         return {
-            points_table : []
+            points_table : [],
+            goal_scorers: []
         }
     },
     mutations: {
         load_points_table(state,payload) {
             state.points_table = payload.points_table;
+        },
+        load_goal_scorers(state,payload) {
+            state.goal_scorers = payload.goal_scorers;
         }
     },
     actions: {
@@ -20,6 +24,15 @@ const home = {
                 credentials: 'same-origin'
             }).then(response => response.json()).then(data => {
                 commit('load_points_table',{points_table:data});
+            });
+        },
+        goal_scorers_load_action({commit}) {
+            fetch('/api/goal_scorers', {
+                credentials: 'same-origin'
+            }).then(response => response.json()).then(data => {
+                commit('load_goal_scorers', {
+                    goal_scorers: data
+                });
             });
         }
     }
