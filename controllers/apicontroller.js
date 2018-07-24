@@ -343,6 +343,7 @@ exports.get_match_results = (req, res, next) => {
 	const Sequelize = require('sequelize');
 	return Matches.findAll({
 		where: {winner: {[Sequelize.Op.gt]: -1}},
+		order: [['start_time','ASC']],
 		include: [{
 				model: require('./../models/teams'),
 				attributes: ['team_name'],
@@ -359,6 +360,7 @@ exports.get_match_results = (req, res, next) => {
 				as: 'goals',
 				include: [{
 					model: require('./../models/players'),
+					as: 'player',
 					attributes: ['name']
 				}]
 			},
